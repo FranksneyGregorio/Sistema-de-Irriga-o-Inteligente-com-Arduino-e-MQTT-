@@ -11,21 +11,21 @@ Componentes Principais
 
 •	Hardware:
 
-Arduino Uno (microcontrolador).
+      Arduino Uno (microcontrolador).
 
-Sensor de umidade do solo (Higrômetro YL-69/FC-28).
+      Sensor de umidade do solo (Higrômetro YL-69/FC-28).
 
-Válvula solenoide (12V) para controle de água.
+      Válvula solenoide (12V) para controle de água.
 
-Módulo Wi-Fi ESP8266 (conexão MQTT).
+      Módulo Wi-Fi ESP8266 (conexão MQTT).
 
 •	Software:
 
-Firmware em C++ (IDE Arduino).
+      Firmware em C++ (IDE Arduino).
 
-Protocolo MQTT para envio de dados à nuvem.
+      Protocolo MQTT para envio de dados à nuvem.
 
-Lógica de acionamento: irriga quando o solo está seco (umidade < 500).
+      Lógica de acionamento: irriga quando o solo está seco (umidade < 500).
 
 Funcionamento
 	Leitura do Sensor: Mede a umidade do solo (valor analógico: 0-1023).
