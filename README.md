@@ -1,15 +1,20 @@
 Sistema de Irrigação Inteligente com Arduino e MQTT
 
 Objetivo
+
 Desenvolver um sistema de irrigação automático baseado em IoT para otimizar o uso de água na agricultura, alinhado ao ODS 6 (Água Potável e Saneamento) da ONU. O projeto utiliza sensores de umidade do solo, Arduino Uno e comunicação MQTT para monitoramento e controle remoto.
 
 Componentes Principais
+
 •	Hardware:
+
 o	Arduino Uno (microcontrolador).
 o	Sensor de umidade do solo (Higrômetro YL-69/FC-28).
 o	Válvula solenoide (12V) para controle de água.
 o	Módulo Wi-Fi ESP8266 (conexão MQTT).
+
 •	Software:
+
 o	Firmware em C++ (IDE Arduino).
 o	Protocolo MQTT para envio de dados à nuvem.
 o	Lógica de acionamento: irriga quando o solo está seco (umidade < 500).
