@@ -1,7 +1,3 @@
-Sistema-de-Irriga-o-Inteligente-com-Arduino-e-MQTT-
-
-Sistema Inteligente de Irrigação Baseado em IoT para Agricultura Sustentável: Contribuições para o ODS 6
-
 Sistema de Irrigação Inteligente com Arduino e MQTT  
 
 Projeto de IoT para irrigação automática baseada em umidade do solo, usando Arduino Uno, sensor de umidade, válvula solenoide e comunicação MQTT.  
