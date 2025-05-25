@@ -1,8 +1,11 @@
 Sistema de Irrigação Inteligente com Arduino e MQTT
 
+
 Objetivo
 
-Desenvolver um sistema de irrigação automático baseado em IoT para otimizar o uso de água na agricultura, alinhado ao ODS 6 (Água Potável e Saneamento) da ONU. O projeto utiliza sensores de umidade do solo, Arduino Uno e comunicação MQTT para monitoramento e controle remoto.
+Desenvolver um sistema de irrigação automático baseado em IoT para otimizar o uso de água na agricultura, alinhado ao ODS 6 (Água Potável e Saneamento) da ONU. 
+O projeto utiliza sensores de umidade do solo, Arduino Uno e comunicação MQTT para monitoramento e controle remoto.
+
 
 Componentes Principais
 
@@ -33,6 +36,7 @@ Funcionamento
    
 	Comunicação: Dados são enviados via MQTT para monitoramento remoto.
 
+
 Resultados Esperados
 
 •	Redução de desperdício de água (irrigação apenas quando necessária).
@@ -41,9 +45,11 @@ Resultados Esperados
 
 •	Custo acessível (componentes de baixo preço e código aberto).
 
+
 Diagrama de Conexões
 
 ![image](https://github.com/user-attachments/assets/0bc2603f-eafe-45f1-8d51-97558904466e)
+
 
 Tecnologias-Chave
 
@@ -53,6 +59,7 @@ Tecnologias-Chave
 
 •	Open Source: Licença MIT para livre uso e adaptação.
 
+
 Aplicação Prática
 
 •	Agricultura sustentável (pequenas e médias propriedades).
@@ -60,6 +67,7 @@ Aplicação Prática
 •	Jardins automatizados ou estufas inteligentes.
 
 •	Projetos educacionais em automação e IoT.
+
 
 Repositório GitHub
 
