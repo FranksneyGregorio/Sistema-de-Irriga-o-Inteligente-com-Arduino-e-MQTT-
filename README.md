@@ -8,16 +8,16 @@ Componentes Principais
 
 •	Hardware:
 
-o	Arduino Uno (microcontrolador).
-o	Sensor de umidade do solo (Higrômetro YL-69/FC-28).
-o	Válvula solenoide (12V) para controle de água.
-o	Módulo Wi-Fi ESP8266 (conexão MQTT).
+Arduino Uno (microcontrolador).
+Sensor de umidade do solo (Higrômetro YL-69/FC-28).
+Válvula solenoide (12V) para controle de água.
+Módulo Wi-Fi ESP8266 (conexão MQTT).
 
 •	Software:
 
-o	Firmware em C++ (IDE Arduino).
-o	Protocolo MQTT para envio de dados à nuvem.
-o	Lógica de acionamento: irriga quando o solo está seco (umidade < 500).
+Firmware em C++ (IDE Arduino).
+Protocolo MQTT para envio de dados à nuvem.
+Lógica de acionamento: irriga quando o solo está seco (umidade < 500).
 
 Funcionamento
 1.	Leitura do Sensor: Mede a umidade do solo (valor analógico: 0-1023).
@@ -30,21 +30,26 @@ Resultados Esperados
 •	Monitoramento em tempo real via plataforma IoT.
 •	Custo acessível (componentes de baixo preço e código aberto).
 
-Diagrama de Conexões  
+Diagrama de Conexões
+
 ![image](https://github.com/user-attachments/assets/0bc2603f-eafe-45f1-8d51-97558904466e)
 
 Tecnologias-Chave
+
 •	IoT (Internet das Coisas): Integração de sensores e nuvem.
 •	MQTT: Protocolo leve para comunicação com brokers.
 •	Open Source: Licença MIT para livre uso e adaptação.
 
 Aplicação Prática
+
 •	Agricultura sustentável (pequenas e médias propriedades).
 •	Jardins automatizados ou estufas inteligentes.
 •	Projetos educacionais em automação e IoT.
 
 Repositório GitHub
+
 Inclui:
+
 •	Código-fonte (Arduino + MQTT).
 •	Diagramas de conexão.
 •	Documentação completa.
