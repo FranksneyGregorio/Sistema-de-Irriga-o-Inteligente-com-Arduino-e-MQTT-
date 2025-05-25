@@ -4,68 +4,66 @@ O projeto de irrigação inteligente utiliza uma combinação de microcontrolado
 
 Componentes Utilizados:
 
-- **Arduino Uno R3**  
+- Arduino Uno R3  
   Microcontrolador baseado no ATmega328P. Responsável por ler o valor do sensor de umidade e controlar o acionamento da válvula solenoide. Possui 14 pinos digitais, 6 entradas analógicas, comunicação serial e alimentação via USB ou fonte externa.
 
-- **Sensor de Umidade do Solo (Higrômetro)**  
+- Sensor de Umidade do Solo (Higrômetro)  
   Utilizado para medir a umidade presente no solo. Fornece sinal analógico (0-1023) de acordo com o nível de umidade. Alimentado com 5V e GND, e com saída conectada ao pino analógico A0 do Arduino.
 
-- **Módulo Wi-Fi ESP8266**  
+- Módulo Wi-Fi ESP8266
   Responsável pela conexão com a rede Wi-Fi e pela comunicação MQTT com o broker remoto. Recebe os dados do Arduino via comunicação serial e publica no tópico MQTT configurado.
 
-- **Válvula Solenoide 12V**  
+- Válvula Solenoide 12V 
   Atuador eletromecânico que controla o fluxo de água no sistema de irrigação. É acionada por um relé ligado ao pino digital D8 do Arduino e alimentada por uma fonte de 12V independente.
 
-- **Relé 1 canal 5V**  
+- Relé 1 canal 5V
   Intermediário entre o Arduino e a válvula solenoide, permitindo que o microcontrolador controle a válvula com segurança, já que o Arduino não suporta diretamente a corrente da válvula.
 
-- **Protoboard 400 pontos**  
+- Protoboard 400 pontos
   Base utilizada para montagem temporária e organização das conexões elétricas entre os componentes.
 
-- **Jumpers (cabos macho-macho e macho-fêmea)**  
+- Jumpers (cabos macho-macho e macho-fêmea) 
   Utilizados para conectar os pinos do Arduino, sensores, relé, ESP8266 e demais componentes de forma flexível e segura.
 
-- **Fonte de Alimentação 12V 2A**  
+- Fonte de Alimentação 12V 2A
   Responsável por fornecer energia para a válvula solenoide, garantindo sua operação independente da alimentação do Arduino.
 
-### 📐 Conexões e Integração:
+Conexões e Integração:
 
-- **Arduino Uno**
+- Arduino Uno
   - Pino A0: Conectado à saída analógica do sensor de umidade.
   - Pino D8: Conectado à entrada do módulo relé.
   - Pinos TX/RX: Comunicação serial com o ESP8266.
 
-- **Sensor de Umidade do Solo**
+- Sensor de Umidade do Solo
   - VCC: 5V
   - GND: GND
   - A0: Pino analógico A0 do Arduino
 
-- **Módulo ESP8266**
+- Módulo ESP8266
   - VCC: 3.3V do Arduino
   - GND: GND
   - TX/RX: Comunicação serial com Arduino Uno (utilizando resistores divisores de tensão no RX para proteger o módulo)
 
-- **Válvula Solenoide**
+- Válvula Solenoide
   - Alimentação: Fonte 12V
   - Controle: Saída do módulo relé
 
-- **Relé**
+- Relé
   - IN: Pino D8 do Arduino
   - VCC: 5V
   - GND: GND
 
-### 📑 Diagrama de Montagem:
+Diagrama de Montagem:
 
-O diagrama esquemático da montagem foi desenvolvido no software Fritzing e encontra-se na pasta `/documentacao/` do repositório como:
-- `diagrama_montagem.fzz` (arquivo editável)
-- `diagrama_montagem.png` (imagem)
+O diagrama esquemático da montagem foi desenvolvido no software Fritzing 
 
----
 
-## 📏 Observação sobre a Escolha do Hardware
 
-O Arduino Uno foi mantido como plataforma principal devido à sua compatibilidade com os componentes utilizados, facilidade de programação e estabilidade em projetos de prototipagem. O módulo ESP8266 foi integrado para garantir a comunicação via Wi-Fi, utilizando o protocolo MQTT, respeitando as restrições acadêmicas que não permitem o uso de plataformas proprietárias como o Blynk.
+Observação sobre a Escolha do Hardware
+
+O Arduino Uno foi mantido como plataforma principal devido à sua compatibilidade com os componentes utilizados, facilidade de programação e estabilidade em projetos de prototipagem. 
+
+O módulo ESP8266 foi integrado para garantir a comunicação via Wi-Fi, utilizando o protocolo MQTT, respeitando as restrições acadêmicas que não permitem o uso de plataformas proprietárias como o Blynk.
 
 Apesar da possibilidade de uso do ESP32, a decisão por não migrar considerou fatores como consumo de energia, curva de aprendizado, custo e necessidade de adaptação completa do projeto e código.
-
----
