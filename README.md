@@ -75,9 +75,11 @@ Inclui:
 
 •	Código-fonte (Arduino + MQTT).
 
-•	Diagramas de conexão.
+•       Documentação das Interfaces e protocolos.
 
-•	Documentação completa.
+•	Descrição do HArdware.
+
+•	Readme.md
 
 🔗 Link: https://github.com/FranksneyGregorio/Sistema-de-Irriga-o-Inteligente-com-Arduino-e-MQTT-
 
