@@ -1,0 +1,32 @@
+Documentação das Interfaces e Protocolos
+
+Comunicação:
+
+- Protocolo MQTT
+  - Broker utilizado: `broker.mqtt-dashboard.com'
+  - Porta: `1883`
+  - Tópico de publicação: `agricultura/umidade`
+  - Publicação periódica a cada 60 segundos com valor de umidade do solo.
+
+Integração:
+
+- Arduino Uno comunica via serial com ESP8266
+- ESP8266 conecta-se ao Wi-Fi e publica no broker MQTT
+
+
+
+Demonstração
+
+Link do vídeo de demonstração no YouTube: 
+
+
+
+Relatórios
+
+- Gráfico de tempo de resposta dos sensores e atuadores
+
+- Tabela de medições de tempo
+
+- Diagramas de montagem (Fritzing)
+
+- Fluxograma de funcionamento
