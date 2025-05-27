@@ -1,22 +1,30 @@
-boolean estado = false; //Flag para mudar estado da válvula
+// Definição de pinos
+const int botaoPin = 10;  // Pino do botão (usar resistor pull-up)
+const int relePin = 9;    // Pino do relé
+boolean estado = false;   // Estado da válvula
 
-void setup(){
+// Variável para debounce do botão
+unsigned long ultimoTempo = 0;
+const int debounceDelay = 50; // Tempo para evitar bouncing (ms)
 
-  pinMode(10,INPUT); //Pino de entrada do botão para comutar válvula
-  pinMode(9,OUTPUT); //Pino de saída para chavear relé
-   
+void setup() {
+  pinMode(botaoPin, INPUT_PULLUP); // Habilita resistor pull-up interno
+  pinMode(relePin, OUTPUT);
+  digitalWrite(relePin, LOW); // Garante estado inicial desligado
 }
 
 void loop() {
-
-  if(digitalRead(10)== LOW){ //Se o botão for pressionado altera estado da flag e do pino
-     
-   delay(500);
-    
-   estado = !estado; //Altera estado anterior da flag 
-   digitalWrite(9, estado); //Altera estado do pino
+  // Verifica se o botão foi pressionado (LOW por causa do pull-up)
+  if (digitalRead(botaoPin) == LOW) {
+    // Debounce - evita leituras acidentais
+    if (millis() - ultimoTempo > debounceDelay) {
+      estado = !estado; // Inverte o estado
+      digitalWrite(relePin, estado);
+      ultimoTempo = millis(); // Atualiza o tempo do último acionamento
       
+      // (Opcional) Debug no Serial Monitor
+      // Serial.print("Estado da válvula: ");
+      // Serial.println(estado ? "LIGADA" : "DESLIGADA");
+    }
   }
-
-
 }
