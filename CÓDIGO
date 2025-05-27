@@ -8,11 +8,10 @@
 // Pinos do Arduino
 const int sensorPin = A0;    // Pino analógico para o sensor de umidade
 const int valvePin = 8;      // Pino digital para a válvula solenoide
-const int ledStatus = 13;    // LED de status (opcional)
 
 // Configurações Wi-Fi (SUBSTITUA pelos seus dados)
-const char* ssid = "SUA_REDE_WIFI";
-const char* password = "SENHA_WIFI";
+const char* ssid = "GREGORIO";
+const char* password = "123456";
 
 // Configurações MQTT (broker público para testes)
 const char* mqtt_server = "broker.mqtt-dashboard.com";
