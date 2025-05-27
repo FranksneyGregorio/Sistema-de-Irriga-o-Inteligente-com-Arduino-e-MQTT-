@@ -1,64 +1,166 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-// Configurações Wi-Fi
-const char* ssid = "GREGORIO";
-const char* password = "123456";
+// =============================================
+// CONFIGURAÇÕES DE HARDWARE E REDE
+// =============================================
 
-// Configurações MQTT
+// Pinos do Arduino
+const int sensorPin = A0;    // Pino analógico para o sensor de umidade
+const int valvePin = 8;      // Pino digital para a válvula solenoide
+const int ledStatus = 13;    // LED de status (opcional)
+
+// Configurações Wi-Fi (SUBSTITUA pelos seus dados)
+const char* ssid = "SUA_REDE_WIFI";
+const char* password = "SENHA_WIFI";
+
+// Configurações MQTT (broker público para testes)
 const char* mqtt_server = "broker.mqtt-dashboard.com";
+const int mqtt_port = 1883;  // Porta padrão MQTT
 const char* mqtt_topic = "agricultura/umidade";
+const char* mqtt_client_id = "irrigacao_arduino"; // ID único para o cliente
 
+// =============================================
+// VARIÁVEIS GLOBAIS
+// =============================================
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-// Pinos
-const int sensorPin = A0;
-const int valvePin = 8;
+// Limites de umidade (ajuste conforme necessidade)
+const int drySoilThreshold = 500;  // Valor abaixo do qual o solo é considerado seco
+const int publishInterval = 60000; // Intervalo de publicação MQTT (60 segundos)
 
+// =============================================
+// FUNÇÃO SETUP (INICIALIZAÇÃO)
+// =============================================
 void setup() {
-  Serial.begin(9600);
-  pinMode(valvePin, OUTPUT);
+  Serial.begin(115200);  // Configura comunicação serial para debug
   
-  // Conecta Wi-Fi
+  // Configura pinos
+  pinMode(valvePin, OUTPUT);
+  pinMode(ledStatus, OUTPUT); // LED de status
+  
+  digitalWrite(valvePin, LOW); // Garante que a válvula inicia desligada
+  digitalWrite(ledStatus, LOW);
+
+  connectToWiFi();  // Conecta ao Wi-Fi
+  setupMQTT();      // Configura cliente MQTT
+}
+
+// =============================================
+// CONEXÃO WI-FI
+// =============================================
+void connectToWiFi() {
+  Serial.println();
+  Serial.print("Conectando a ");
+  Serial.println(ssid);
+
   WiFi.begin(ssid, password);
+
   while (WiFi.status() != WL_CONNECTED) {
+    digitalWrite(ledStatus, !digitalRead(ledStatus)); // Pisca LED durante conexão
     delay(500);
     Serial.print(".");
   }
-  Serial.println("Wi-Fi conectado!");
 
-  // Configura MQTT
-  client.setServer(mqtt_server, 1883);
+  Serial.println("");
+  Serial.println("WiFi conectado!");
+  Serial.println("Endereço IP: ");
+  Serial.println(WiFi.localIP());
+  digitalWrite(ledStatus, HIGH); // LED aceso quando conectado
 }
 
-void reconnect() {
+// =============================================
+// CONFIGURAÇÃO MQTT
+// =============================================
+void setupMQTT() {
+  client.setServer(mqtt_server, mqtt_port);
+  client.setCallback(callback); // Configura função para receber mensagens
+}
+
+// =============================================
+// RECONEXÃO MQTT
+// =============================================
+void reconnectMQTT() {
   while (!client.connected()) {
-    if (client.connect("arduinoClient")) {
-      Serial.println("Conectado ao broker MQTT!");
+    Serial.print("Conectando ao broker MQTT...");
+    
+    if (client.connect(mqtt_client_id)) {
+      Serial.println("Conectado!");
+      client.subscribe("agricultura/controle"); // Tópico para receber comandos
     } else {
       Serial.print("Falha, rc=");
       Serial.print(client.state());
+      Serial.println(" Tentando novamente em 5 segundos...");
       delay(5000);
     }
   }
 }
 
+// =============================================
+// CALLBACK PARA MENSAGENS RECEBIDAS
+// =============================================
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Mensagem recebida [");
+  Serial.print(topic);
+  Serial.print("]: ");
+  
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+
+  // Comando para ligar/desligar manualmente
+  if (String(topic) == "agricultura/controle") {
+    if ((char)payload[0] == '1') {
+      digitalWrite(valvePin, HIGH);
+      Serial.println("Válvula LIGADA manualmente");
+    } else if ((char)payload[0] == '0') {
+      digitalWrite(valvePin, LOW);
+      Serial.println("Válvula DESLIGADA manualmente");
+    }
+  }
+}
+
+// =============================================
+// LOOP PRINCIPAL
+// =============================================
 void loop() {
+  // Verifica conexões
+  if (WiFi.status() != WL_CONNECTED) {
+    connectToWiFi();
+  }
+  
   if (!client.connected()) {
-    reconnect();
+    reconnectMQTT();
   }
   client.loop();
 
-  // Lê sensor e controla válvula
+  // Leitura do sensor
   int soilMoisture = analogRead(sensorPin);
-  if (soilMoisture < 500) {
-    digitalWrite(valvePin, HIGH);  // Liga válvula (solo seco)
+  Serial.print("Umidade do solo: ");
+  Serial.println(soilMoisture);
+
+  // Controle automático da válvula
+  if (soilMoisture < drySoilThreshold) {
+    digitalWrite(valvePin, HIGH);
+    Serial.println("Solo SECO - Válvula LIGADA");
   } else {
-    digitalWrite(valvePin, LOW);   // Desliga válvula (solo úmido)
+    digitalWrite(valvePin, LOW);
+    Serial.println("Solo ÚMIDO - Válvula DESLIGADA");
   }
 
-  // Publica no MQTT
-  client.publish(mqtt_topic, String(soilMoisture).c_str());
-  delay(60000);  // Publica a cada 1 minuto
+  // Publica dados no MQTT
+  static unsigned long lastPublishTime = 0;
+  if (millis() - lastPublishTime > publishInterval) {
+    char msg[50];
+    snprintf(msg, 50, "{\"umidade\":%d,\"valvula\":%d}", soilMoisture, digitalRead(valvePin));
+    client.publish(mqtt_topic, msg);
+    Serial.print("Publicado: ");
+    Serial.println(msg);
+    
+    lastPublishTime = millis();
+  }
+
+  delay(1000); // Pequeno delay para estabilidade
 }
